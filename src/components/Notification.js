@@ -42,14 +42,14 @@ export default class Notification extends Component {
 
         return (
             <Animated.View style={{transform: [{translateY: positionValue}]}, [styles.wrapper]}>
-                <View style={styles.notificationContent}>
-                    <Text style={styles.errorText}>{type}</Text>
-                    <Text>{firstLine}</Text>
-                    <Text>{secondLine}</Text>
-                </View>
-                <TouchableOpacity style={styles.closeButton} onPress={this.closeNotification}>
-                    <Icon name="times" size={20} color={colors.lightGray}/>
-                </TouchableOpacity>
+                {/*<View style={styles.notificationContent}>*/}
+                    {/*<Text style={styles.errorText}>{type}</Text>*/}
+                    {/*<Text>{firstLine}</Text>*/}
+                    {/*<Text>{secondLine}</Text>*/}
+                {/*</View>*/}
+                {/*<TouchableOpacity style={styles.closeButton} onPress={this.closeNotification}>*/}
+                    {/*<Icon name="times" size={20} color={colors.lightGray}/>*/}
+                {/*</TouchableOpacity>*/}
             </Animated.View>
         );
     }

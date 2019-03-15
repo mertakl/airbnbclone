@@ -26,7 +26,7 @@ export default class InputField extends Component {
     }
 
     render() {
-        const {labelText, labelTextSize, labelColor, textColor, borderBottomColor, inputType, customStyle} = this.props;
+        const {labelText, labelTextSize, labelColor, textColor, borderBottomColor, inputType, customStyle, onChangeText} = this.props;
         const fontSize = labelTextSize || 14;
         const color = labelColor || colors.white;
         const inputColor = textColor || colors.white;
@@ -37,13 +37,13 @@ export default class InputField extends Component {
             <View style={[customStyle, styles.wrapper]}>
                 <Text style={[{fontSize, color}, styles.label]}>{labelText}</Text>
                 {inputType === 'password' ?
-                <TouchableOpacity style={styles.showButton} onPress={this.toggleShowPassword    }>
-                <Text style={styles.showButtonText}>{secureInput ? 'Show' : 'Hide'}</Text>
-                </TouchableOpacity> : null
+                    <TouchableOpacity style={styles.showButton} onPress={this.toggleShowPassword}>
+                        <Text style={styles.showButtonText}>{secureInput ? 'Show' : 'Hide'}</Text>
+                    </TouchableOpacity> : null
                 }
                 <TextInput autoCorrect={false}
                            style={[{color: inputColor, borderBottomColor: borderBottom}, styles.inputField]}
-                           secureTextEntry={secureInput}/>
+                           secureTextEntry={secureInput} onChangeText={onChangeText}/>
             </View>
         );
     }
@@ -56,7 +56,8 @@ InputField.propTypes = {
     textColor: PropTypes.string,
     borderBottomColor: PropTypes.string,
     inputType: PropTypes.string.isRequired,
-    customStyle: PropTypes.object
+    customStyle: PropTypes.object,
+    onChangeText: PropTypes.func
 };
 
 
