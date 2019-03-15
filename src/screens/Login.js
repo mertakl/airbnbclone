@@ -12,17 +12,34 @@ import NextArrowButton from "../components/buttons/NextArrowButton";
 import Notification from "../components/Notification";
 
 export default class Login extends Component {
+
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            formValid: false,
+        }
+
+        this.handleCloseNotification = this.handleCloseNotification.bind(this);
+    }
+
     handleNextButton() {
         alert('Next button pressed');
     }
 
     handleCloseNotification() {
-        alert('Closing notification');
+        this.setState({
+            formValid: true,
+        });
     }
 
     render() {
+
+        const {formValid} = this.state;
+        const showNotification = formValid ? false : true;
+        const background = formValid ? colors.green01 : colors.darkOrange;
         return (
-            <KeyboardAvoidingView style={styles.wrapper}>
+            <KeyboardAvoidingView style={[{backgroundColor: background}, styles.wrapper]}>
                 <View style={styles.scrollViewWrapper}>
                     <ScrollView style={styles.scrollView}>
                         <Text style={styles.loginHeader}>Log In</Text>
@@ -40,7 +57,7 @@ export default class Login extends Component {
                     </View>
                     <View>
                         <Notification
-                            showNotification={true}
+                            showNotification={showNotification}
                             handleCloseNotification={this.handleCloseNotification}
                             type='Error'
                             firstLine='Those credientals dont look right.'
@@ -56,8 +73,7 @@ export default class Login extends Component {
 const styles = StyleSheet.create({
     wrapper: {
         flex: 1,
-        display: 'flex',
-        backgroundColor: colors.green01,
+        display: 'flex'
     },
     scrollViewWrapper: {
         marginTop: 70,
