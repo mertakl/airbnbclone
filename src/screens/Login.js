@@ -23,7 +23,7 @@ export default class Login extends Component {
             emailAddress: '',
             validPassword: false,
             loadingVisible: false,
-        }
+        };
 
         this.handleCloseNotification = this.handleCloseNotification.bind(this);
         this.handleEmailChange = this.handleEmailChange.bind(this);
@@ -91,16 +91,13 @@ export default class Login extends Component {
 
     toggleNextButtonState() {
         const {validEmail, validPassword} = this.state;
-        if (validEmail && validPassword) {
-            return false;
-        }
-        return true;
+        return !(validEmail && validPassword);
     }
 
     render() {
 
-        const {formValid, loadingVisible} = this.state;
-        const showNotification = formValid ? false : true;
+        const {formValid, loadingVisible, validEmail, validPassword} = this.state;
+        const showNotification = !formValid;
         const background = formValid ? colors.green01 : colors.darkOrange;
         const notificationMarginTop = showNotification ? 10 : 0;
         return (
@@ -114,7 +111,9 @@ export default class Login extends Component {
                                     borderBottomColor={colors.white}
                                     inputType='email'
                                     customStyle={{marginBottom: 30}}
-                                    onChangeText={this.handleEmailChange}/>
+                                    onChangeText={this.handleEmailChange}
+                                    showCheckmark={validEmail}
+                                    autoFocus={true}/>
                         <InputField labelText='PASSWORD'
                                     labelTextSize={14}
                                     labelColor={colors.white}
@@ -122,7 +121,8 @@ export default class Login extends Component {
                                     borderBottomColor={colors.white}
                                     inputType='password'
                                     customStyle={{marginBottom: 30}}
-                                    onChangeText={this.handlePasswordChange}/>
+                                    onChangeText={this.handlePasswordChange}
+                                    showCheckmark={validPassword}/>
                     </ScrollView>
                     <View style={styles.nextButton}>
                         <NextArrowButton
