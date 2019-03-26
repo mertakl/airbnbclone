@@ -1,15 +1,21 @@
 import React, {Component} from 'react';
-import {TouchableOpacity, Text, View, StyleSheet, Easing, Animated} from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import PropTypes from "prop-types";
+import {
+    View,
+    Text,
+    TouchableOpacity,
+    StyleSheet,
+    Easing,
+    Animated,
+} from 'react-native';
 import colors from '../styles/colors';
-import PropTypes from 'prop-types';
-import Icon from 'react-native-vector-icons/dist/FontAwesome';
 
 export default class Notification extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
-            positionValue: new Animated.Value(60),
+            positionValue: new Animated.Value(-60),
         };
         this.closeNotification = this.closeNotification.bind(this);
         this.animateNotification = this.animateNotification.bind(this);
@@ -21,13 +27,12 @@ export default class Notification extends Component {
             positionValue,
             {
                 toValue: value,
-                duration: 400,
-                volocity: 3,
+                duration: 300,
+                velocity: 3,
                 tension: 2,
                 friction: 8,
                 easing: Easing.easeOutBack,
-                useNativeDriver: true,
-            }
+            },
         ).start();
     }
 
@@ -36,20 +41,36 @@ export default class Notification extends Component {
     }
 
     render() {
-        const {type, firstLine, secondLine, showNotification} = this.props;
+        const {
+            type, firstLine, secondLine, showNotification,
+        } = this.props;
+        showNotification ? this.animateNotification(0) : this.animateNotification(-60);
         const {positionValue} = this.state;
-        showNotification ? this.animateNotification(0) : this.animateNotification(60);
-
         return (
-            <Animated.View style={{transform: [{translateY: positionValue}]}, [styles.wrapper]}>
-                {/*<View style={styles.notificationContent}>*/}
-                    {/*<Text style={styles.errorText}>{type}</Text>*/}
-                    {/*<Text>{firstLine}</Text>*/}
-                    {/*<Text>{secondLine}</Text>*/}
-                {/*</View>*/}
-                {/*<TouchableOpacity style={styles.closeButton} onPress={this.closeNotification}>*/}
-                    {/*<Icon name="times" size={20} color={colors.lightGray}/>*/}
-                {/*</TouchableOpacity>*/}
+            <Animated.View style={[{marginBottom: positionValue}, styles.wrapper]}>
+                <View style={styles.errorMessageContainer}>
+                    <View style={styles.errorMessage}>
+                        <Text style={styles.errorText}>
+                            {type}
+                        </Text>
+                        <Text>
+                            {firstLine}
+                        </Text>
+                    </View>
+                    <Text style={styles.errorMessage}>
+                        {secondLine}
+                    </Text>
+                </View>
+                <TouchableOpacity
+                    style={styles.closeButton}
+                    onPress={this.closeNotification}
+                >
+                    <Icon
+                        name="times"
+                        size={20}
+                        color={colors.lightGray}
+                    />
+                </TouchableOpacity>
             </Animated.View>
         );
     }
@@ -65,29 +86,38 @@ Notification.propTypes = {
 
 const styles = StyleSheet.create({
     wrapper: {
+        flex: 1,
         backgroundColor: colors.white,
         height: 60,
-        width: '100%',
         padding: 10,
     },
     notificationContent: {
-        flexDirection: 'row',
+        flex: 1,
+        flexDirection: 'column',
         flexWrap: 'wrap',
-        alignItems: 'flex-start'
+        alignItems: 'flex-start',
     },
     errorText: {
         color: colors.darkOrange,
         marginRight: 5,
         fontSize: 14,
-        marginBottom: 2
+        marginBottom: 2,
     },
     errorMessage: {
+        flexDirection: 'row',
+        flex: 1,
+        marginBottom: 2,
         fontSize: 14,
-        marginBottom: 2
+    },
+    errorMessageContainer: {
+        flexDirection: 'row',
+        flex: 1,
+        marginBottom: 2,
     },
     closeButton: {
         position: 'absolute',
         right: 10,
         top: 10,
-    }
+        zIndex: 999,
+    },
 });
