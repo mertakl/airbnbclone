@@ -11,8 +11,12 @@ import InputField from "../components/form/InputField";
 import NextArrowButton from "../components/buttons/NextArrowButton";
 import Notification from "../components/Notification";
 import Loader from "../components/Loader";
-
-export default class Login extends Component {
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
+import {ActionCreators} from "../redux/actions";
+import mapStateToProps from "react-redux/es/connect/mapStateToProps";
+import mapDispatchToProps from "react-redux/es/connect/mapDispatchToProps";
+class Login extends Component {
 
 
     constructor(props) {
@@ -38,9 +42,8 @@ export default class Login extends Component {
         this.setState({loadingVisible: true});
 
         setTimeout(() => {
-            if (this.state.emailAddress === 'hello@mert.com' && this.state.validPassword
-            ) {
-                alert('Success');
+            const {emailAddress} = this.state;
+            if (this.props.logIn(emailAddress, '')) {
                 this.setState({
                     formValid: true,
                     loadingVisible: false,
@@ -150,33 +153,47 @@ export default class Login extends Component {
 
 const styles = StyleSheet.create({
     wrapper: {
+        display: 'flex',
         flex: 1,
-        display: 'flex'
     },
     scrollViewWrapper: {
         marginTop: 70,
         flex: 1,
-    },
-    loginHeader: {
-        fontSize: 34,
-        color: colors.white,
-        fontWeight: '300',
-        marginBottom: 40,
+        padding: 0,
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
     },
     scrollView: {
         paddingLeft: 30,
         paddingRight: 30,
         paddingTop: 20,
-        flex: 1
+        flex: 1,
     },
-    nextButton: {
-        position: 'absolute',
-        alignItems: 'flex-end',
-        right: 20,
-        bottom: 20
+    loginHeader: {
+        fontSize: 26,
+        color: colors.white,
+        fontWeight: '300',
+        marginBottom: 40,
     },
     notificationWrapper: {
         position: 'absolute',
         bottom: 0,
-    }
+        left: 0,
+        right: 0,
+    },
 });
+
+const mapStateToProps = (state) => {
+    return {
+        loggedInStatus: state.loggedInStatus,
+    }
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators(ActionCreators, dispatch);
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

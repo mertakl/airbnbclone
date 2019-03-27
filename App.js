@@ -1,11 +1,15 @@
 import React, {Component} from 'react';
-import ForgotPassword from "./src/screens/ForgotPassword";
+import Login from "./src/screens/Login";
+import {Provider} from "react-redux";
+import store from "./src/redux/store";
 
 type Props = {};
 export default class App extends Component<Props> {
     render() {
         return (
-            <ForgotPassword/>
+            <Provider store={store}>
+                <Login/>
+            </Provider>
         );
     }
 }

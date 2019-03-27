@@ -106,24 +106,22 @@ InputField.propTypes = {
 
 const styles = StyleSheet.create({
     wrapper: {
-        display: 'flex'
+        display: 'flex',
     },
     label: {
-        fontWeight: '700',
         marginBottom: 20,
     },
     inputField: {
         borderBottomWidth: 1,
         paddingTop: 5,
-        paddingBottom: 5
     },
     showButton: {
         position: 'absolute',
-        right: 0
+        right: 0,
     },
     showButtonText: {
         color: colors.white,
-        fontWeight: '700'
+        fontWeight: '700',
     },
     checkmarkWrapper: {
         position: 'absolute',
